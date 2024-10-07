@@ -36,3 +36,31 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  background: linear-gradient(0deg, #0F0F2D, #332e63, #0F0F2D); /* Define gradient colors */
+  background-size: 50% 50%;  /* Large size for smooth animation */
+  animation: gradientAnimation 3s ease-in-out infinite;  /* Animation properties */
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background: linear-gradient(0deg, #0F0F2D, #332e63, #0F0F2D); /* Define gradient colors */
+    background-size: 70% 100%;  /* Large size for smooth animation */
+    background-position: 0% 50%;  /* Start position */
+  }
+  50% {
+    background: linear-gradient(0deg, #0F0F2D, #3b375d, #0F0F2D); /* Define gradient colors */
+    background-size: 70% 100%;  /* Large size for smooth animation */
+    background-position: 100% 50%;  /* Mid animation position */
+  }
+  100% {
+    background: linear-gradient(0deg, #0F0F2D, #332e63, #0F0F2D); /* Define gradient colors */
+    background-size: 70% 100%;  /* Large size for smooth animation */
+    background-position: 0% 50%;  /* End position (loops back) */
+  }
+}
