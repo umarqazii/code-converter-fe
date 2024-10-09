@@ -18,3 +18,18 @@
   background-color: #3e3e3e;
   border-color: #666;
 }
+
+.relative {
+  position: relative; /* This creates a new stacking context */
+}
+
+.copy-button {
+  position: absolute; /* Keeps the button positioned relative to its parent */
+  top: 10px; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+  z-index: 10; /* Bring the button to the front */
+}
+
+.margins {
+  margin-top: 0.75rem;
+}

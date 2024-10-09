@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import toast from 'react-hot-toast';
 import { Controlled as CodeMirror } from 'react-codemirror2';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/python/python';
+import 'codemirror/mode/clike/clike'; // For C++ and Java
 import './CustomDropdown.css';
 
 const Home = () => {
@@ -42,6 +44,49 @@ const Home = () => {
     }
   };
 
+  const copyToClipboard = (code: string) => {
+    navigator.clipboard.writeText(code)
+      .then(() => {
+        toast.success('Code copied to clipboard!');
+      })
+      .catch((error) => {
+        console.error('Failed to copy: ', error);
+        toast.error('Failed to copy code.');
+      });
+  };
+
+  const pasteFromClipboard = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      setInputCode(text);
+      toast.success('Code pasted from clipboard!');
+    } catch (error) {
+      console.error('Failed to paste: ', error);
+      toast.error('Failed to paste code.');
+    }
+  };
+
+  const downloadCode = () => {
+    const fileExtensionMap: { [key: string]: string } = {
+        JavaScript: 'js',
+        Python: 'py',
+        'C++': 'cpp', // Corrected here
+        Java: 'java',
+    };
+
+    const extension = fileExtensionMap[toLanguage];
+    const blob = new Blob([outputCode], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `code.${extension}`; // Here you can set the file name appropriately
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+};
+
+
   return (
     <>
       <Navbar />
@@ -60,26 +105,38 @@ const Home = () => {
               <option value="C++">C++</option>
               <option value="Java">Java</option>
             </select>
+          </div>
+          
+          <div className="relative">
+            <CodeMirror
+              value={inputCode}
+              options={{
+                mode: fromLanguage.toLowerCase(),
+                theme: 'material',
+                lineNumbers: true,
+              }}
+              onBeforeChange={(editor, data, value) => {
+                setInputCode(value);
+              }}
+              className='border border-gray-300 rounded-md p-2'
+            />
+
+            {/* Paste Button */}
+            <button 
+              className="paste-button bg-blue-600 text-white px-3 py-1 rounded-md shadow-md hover:bg-blue-500 transition duration-200 absolute top-5 right-5"
+              onClick={pasteFromClipboard}
+            >
+              Paste
+            </button>
 
           </div>
-          <CodeMirror
-            value={inputCode}
-            options={{
-              mode: fromLanguage.toLowerCase(),
-              theme: 'material',
-              lineNumbers: true,
-            }}
-            onBeforeChange={(editor, data, value) => {
-              setInputCode(value);
-            }}
-            className='border border-gray-300 rounded-md p-2'
-          />
+
           <button
-            className='mt-4 w-full md:w-auto px-4 py-2 bg-gradient-to-r from-blue-800 to-purple-800 text-white font-semibold rounded-lg shadow-md transition-transform transform hover:scale-105 focus:outline-none'
+            className='mt-4 w-full md:w-auto px-4 py-2 bg-gradient-to-r from-green-400 to-blue-500 text-white font-semibold rounded-lg shadow-md transition-transform transform hover:scale-105 focus:outline-none'
             onClick={() => {
               try {
                 eval(inputCode);
-                toast.success('no errors!', {
+                toast.success('No errors!', {
                   style: {
                     fontSize: '1.2rem',
                   },
@@ -105,7 +162,7 @@ const Home = () => {
         {/* Convert Button */}
         <div className='processing-button flex justify-center w-full md:w-1/5 mb-6 md:mb-0'>
           <button
-            className='w-full md:w-auto px-6 py-3 bg-gradient-to-r from-blue-800 to-purple-800 text-white font-semibold rounded-lg shadow-md transition-transform transform hover:scale-105 focus:outline-none'
+            className='w-full md:w-auto px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg shadow-md transition-transform transform hover:scale-105 focus:outline-none'
             onClick={handleConvert}
           >
             Convert
@@ -127,18 +184,34 @@ const Home = () => {
               <option value="Java">Java</option>
             </select>
           </div>
-          <CodeMirror
-            value={outputCode}
-            options={{
-              mode: toLanguage.toLowerCase(),
-              theme: 'material',
-              lineNumbers: true,
-            }}
-            onBeforeChange={(editor, data, value) => {
-              setOutputCode(value);
-            }}
-            className='border border-gray-300 rounded-md p-2'
-          />
+          
+          <div className="relative">
+            <CodeMirror
+              value={outputCode}
+              options={{
+                mode: toLanguage.toLowerCase(),
+                theme: 'material',
+                lineNumbers: true,
+              }}
+              onBeforeChange={(editor, data, value) => {
+                setOutputCode(value);
+              }}
+              className='border border-gray-300 rounded-md p-2'
+            />
+            <CopyToClipboard text={outputCode} onCopy={() => copyToClipboard(outputCode)}>
+              <button className="absolute top-5 right-5 bg-blue-600 text-white px-3 py-1 rounded-md shadow-md hover:bg-blue-500 transition duration-200">
+                Copy Code
+              </button>
+            </CopyToClipboard>
+          </div>
+
+          {/* Download Button */}
+          <button
+            className='mt-4 w-full md:w-auto px-4 py-2 bg-gradient-to-r from-yellow-400 to-red-500 text-white font-semibold rounded-lg shadow-md transition-transform transform hover:scale-105 focus:outline-none'
+            onClick={downloadCode}
+          >
+            Download Code
+          </button>
         </div>
       </div>
     </>
