@@ -1,0 +1,20 @@
+.custom-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #2e2e2e;
+  color: white;
+  padding: 10px 40px 10px 20px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"%3E%3Cpath fill="white" d="M2 2L0 0h4z" /%3E%3C/svg%3E'); /* Updated to use downward arrow */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+  font-size: 16px;
+}
+
+.custom-select:hover {
+  background-color: #3e3e3e;
+  border-color: #666;
+}

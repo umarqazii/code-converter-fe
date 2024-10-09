@@ -7,6 +7,7 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/python/python';
+import './CustomDropdown.css';
 
 const Home = () => {
   const [inputCode, setInputCode] = useState('');
@@ -19,16 +20,16 @@ const Home = () => {
       toast.error('Input code is required!');
       return;
     }
-  
+
     const requestBody = {
       code: inputCode,
       fromLanguage: fromLanguage,
       toLanguage: toLanguage,
     };
-  
+
     try {
       const response = await axios.post('https://code-converter-be-livid.vercel.app/convert', requestBody);
-      
+
       if (response.data.success) {
         setOutputCode(response.data.convertedCode);
         toast.success('Code converted successfully!');
@@ -40,20 +41,31 @@ const Home = () => {
       toast.error('Something went wrong. Please try again.');
     }
   };
-  
 
   return (
     <>
       <Navbar />
-      <div className='container mx-auto px-4 py-10 flex flex-col md:flex-row md:flex-wrap items-center md:items-start justify-center ' style={{minHeight: '87vh'}}>
+      <div className='container mx-auto px-4 py-10 flex flex-col md:flex-row md:flex-wrap items-center md:items-start justify-center' style={{ minHeight: '87vh' }}>
         
         {/* Input Section */}
         <div className='input-box w-full md:w-2/5 mb-6 md:mb-0'>
-          <h3 className='text-lg text-white font-semibold mb-4 text-center md:text-left'>Paste your JS code here:</h3>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className='text-lg text-white font-semibold text-center md:text-left'>Paste your code here:</h3>
+            <select
+              value={fromLanguage}
+              onChange={(e) => setFromLanguage(e.target.value)}
+              className='custom-select'>
+              <option value="JavaScript">JavaScript</option>
+              <option value="Python">Python</option>
+              <option value="C++">C++</option>
+              <option value="Java">Java</option>
+            </select>
+
+          </div>
           <CodeMirror
             value={inputCode}
             options={{
-              mode: 'javascript',
+              mode: fromLanguage.toLowerCase(),
               theme: 'material',
               lineNumbers: true,
             }}
@@ -67,7 +79,7 @@ const Home = () => {
             onClick={() => {
               try {
                 eval(inputCode);
-                toast.success('no errors!',{
+                toast.success('no errors!', {
                   style: {
                     fontSize: '1.2rem',
                   },
@@ -75,9 +87,8 @@ const Home = () => {
                   duration: 4000,
                 });
               } catch (error) {
-                //alert(error);
                 console.log(error);
-                toast.error('' + error,{
+                toast.error('' + error, {
                   style: {
                     fontSize: '1.2rem',
                   },
@@ -85,7 +96,8 @@ const Home = () => {
                   duration: 4000,
                 });
               }
-            }}>
+            }}
+          >
             Check for Errors
           </button>
         </div>
@@ -102,11 +114,23 @@ const Home = () => {
 
         {/* Output Section */}
         <div className='output-box w-full md:w-2/5'>
-          <h3 className='text-lg text-white font-semibold mb-4 text-center md:text-left'>Your converted code here:</h3>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className='text-lg text-white font-semibold text-center md:text-left'>Your converted code here:</h3>
+            <select
+              value={toLanguage}
+              onChange={(e) => setToLanguage(e.target.value)}
+              className="custom-select"
+            >
+              <option value="Python">Python</option>
+              <option value="JavaScript">JavaScript</option>
+              <option value="C++">C++</option>
+              <option value="Java">Java</option>
+            </select>
+          </div>
           <CodeMirror
             value={outputCode}
             options={{
-              mode: 'python',
+              mode: toLanguage.toLowerCase(),
               theme: 'material',
               lineNumbers: true,
             }}
