@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <div className='w-full flex items-center justify-center'>
       <div className='bg-transparent m-1 rounded-lg border-2 border-slate-700'>
-        <ul className='text-white flex items-center lg:gap-8 md:gap-6 p-3 sm:gap-2'>
+        <ul className='text-white flex items-center lg:gap-8 md:gap-6 p-2 sm:gap-2'>
           {/* Left icon */}
           <li className='flex items-center justify-center'>
             <i className="pi pi-compass text-xl bg-indigo-500 p-2 rounded-full"></i>
