@@ -9,7 +9,7 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/python/python';
-import 'codemirror/mode/clike/clike'; // For C++ and Java
+import 'codemirror/mode/clike/clike';
 import './CustomDropdown.css';
 import { read } from 'fs';
 
@@ -18,12 +18,28 @@ const Home = () => {
   const [fromLanguage, setFromLanguage] = useState('JavaScript');
   const [toLanguage, setToLanguage] = useState('Python');
   const [outputCode, setOutputCode] = useState('');
+  let toastid = ''
 
   const handleConvert = async () => {
     if (!inputCode.trim()) {
-      toast.error('Input code is required!');
+      toast.error('Input code is required!', {
+        style: {
+          fontSize: '1.2rem',
+        },
+        duration: 4000,
+      });
       return;
     }
+
+    toastid = toast("Processing your request...", {
+      icon: "⏳",
+      duration: Infinity,
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+    });
 
     const requestBody = {
       code: inputCode,
@@ -35,25 +51,47 @@ const Home = () => {
       const response = await axios.post('https://code-converter-be-livid.vercel.app/convert', requestBody);
 
       if (response.data.success) {
+        toast.dismiss(toastid);
         setOutputCode(response.data.convertedCode);
-        toast.success('Code converted successfully!');
+        toast.success('Code converted successfully!', {
+          style: {
+            fontSize: '1.2rem',
+          },
+          duration: 4000,
+        });
       } else {
         toast.error('Failed to convert the code.');
       }
     } catch (error) {
+      toast.dismiss(toastid);
       console.error('Error converting code:', error);
-      toast.error('Something went wrong. Please try again.');
+      toast.error('Something went wrong. Please try again.', {
+        style: {
+          fontSize: '1.2rem',
+        },
+        duration: 4000,
+      });
     }
   };
 
   const copyToClipboard = (code: string) => {
     navigator.clipboard.writeText(code)
       .then(() => {
-        toast.success('Code copied to clipboard!');
+        toast.success('Code copied to clipboard!', {
+          style: {
+            fontSize: '1.2rem',
+          },
+          duration: 4000,
+        });
       })
       .catch((error) => {
         console.error('Failed to copy: ', error);
-        toast.error('Failed to copy code.');
+        toast.error('Failed to copy code.', {
+          style: {
+            fontSize: '1.2rem',
+          },
+          duration: 4000,
+        });
       });
   };
 
@@ -61,10 +99,20 @@ const Home = () => {
     try {
       const text = await navigator.clipboard.readText();
       setInputCode(text);
-      toast.success('Code pasted from clipboard!');
+      toast.success('Code pasted from clipboard!', {
+        style: {
+          fontSize: '1.2rem',
+        },
+        duration: 4000,
+      });
     } catch (error) {
       console.error('Failed to paste: ', error);
-      toast.error('Failed to paste code.');
+      toast.error('Failed to paste code.', {
+        style: {
+          fontSize: '1.2rem',
+        },
+        duration: 4000,
+      });
     }
   };
 
@@ -139,11 +187,10 @@ const Home = () => {
             onClick={() => {
               try {
                 eval(inputCode);
-                toast.success('No errors!', {
+                toast.success('No errors!',{
                   style: {
                     fontSize: '1.2rem',
                   },
-                  position: 'bottom-left',
                   duration: 4000,
                 });
               } catch (error) {
@@ -152,7 +199,6 @@ const Home = () => {
                   style: {
                     fontSize: '1.2rem',
                   },
-                  position: 'bottom-left',
                   duration: 4000,
                 });
               }
