@@ -39,28 +39,30 @@
 
 body {
   background: linear-gradient(0deg, #0F0F2D, #332e63, #0F0F2D); /* Define gradient colors */
-  background-size: 50% 50%;  /* Large size for smooth animation */
-  animation: gradientAnimation 3s ease-in-out infinite;  /* Animation properties */
+  background-size: 200% 200%;  /* Larger background size for smoother motion */
+  animation: gradientMove 6s ease-in-out infinite;  /* Longer duration for smoother animation */
   margin: 0;
   padding: 0;
   min-height: 100vh;
   font-family: Arial, sans-serif;
 }
 
-@keyframes gradientAnimation {
+/* Keyframe animation */
+@keyframes gradientMove {
   0% {
-    background: linear-gradient(0deg, #0F0F2D, #332e63, #0F0F2D); /* Define gradient colors */
-    background-size: 70% 100%;  /* Large size for smooth animation */
-    background-position: 0% 50%;  /* Start position */
+    background-position: 50% 0%;  /* Start position (top center) */
+  }
+  25% {
+    background-position: 50% 50%; /* Move to the middle */
   }
   50% {
-    background: linear-gradient(0deg, #0F0F2D, #3b375d, #0F0F2D); /* Define gradient colors */
-    background-size: 70% 100%;  /* Large size for smooth animation */
-    background-position: 100% 50%;  /* Mid animation position */
+    background-position: 100% 50%; /* Move to the right middle */
+  }
+  75% {
+    background-position: 50% 100%; /* Move to the bottom middle */
   }
   100% {
-    background: linear-gradient(0deg, #0F0F2D, #332e63, #0F0F2D); /* Define gradient colors */
-    background-size: 70% 100%;  /* Large size for smooth animation */
-    background-position: 0% 50%;  /* End position (loops back) */
+    background-position: 0% 50%;  /* End at left middle (loop back to start) */
   }
 }
+
