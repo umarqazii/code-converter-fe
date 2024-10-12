@@ -49,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@types/chart.js": "^2.9.41",
     "@types/react-copy-to-clipboard": "^5.0.7",
     "autoprefixer": "^10.4.4",
     "postcss": "^8.4.12",
