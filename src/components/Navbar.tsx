@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import 'primeicons/primeicons.css';
 
 const Navbar = () => {
@@ -11,10 +12,10 @@ const Navbar = () => {
             <i className="pi pi-compass text-xl bg-indigo-500 p-2 rounded-full"></i>
           </li>
           <li className='text-slate-700 hidden sm:block'>|</li>
-          <li className='cursor-pointer'>Feature</li>
-          <li className='cursor-pointer'>Pricing</li>
-          <li className='cursor-pointer'>Insights</li>
-          <li className='cursor-pointer'>Integrations</li>
+          <Link to="/" className='cursor-pointer'>Feature</Link>
+          <Link to="/" className='cursor-pointer'>Pricing</Link>
+          <Link to="/insights" className='cursor-pointer'>Insights</Link>
+          <Link to="/integrations" className='cursor-pointer'>Integrations</Link>
           <li className='text-slate-700 hidden sm:block'>|</li>
           {/* Get Started button */}
           <li className='w-full sm:w-auto flex justify-center mt-2 sm:mt-0'>
