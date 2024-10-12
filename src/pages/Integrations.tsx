@@ -45,7 +45,11 @@ const Integrations: React.FC = () => {
           </div>
         ))}
       </div>
+
     </div>
+    <footer className="bg-gray-800 w-full text-center py-4">
+        <p className="text-white text-sm">All rights reserved</p>
+      </footer>
     </>
   );
 };
