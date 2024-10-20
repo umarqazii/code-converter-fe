@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import toast from 'react-hot-toast';
+import axios from 'axios';
+
 const SuggestSomething: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -12,12 +14,34 @@ const SuggestSomething: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Submit logic here. You can display an alert for now as this is a static page.
-    toast.success('Suggestion submitted successfully!');
-    setFormData({ name: '', email: '', suggestion: '' });
+    
+    // Log the form data to the console
+    console.log('Form Data:', formData);
+  
+    try {
+      const response = await axios.post('http://localhost:5000/suggest', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.status === 201) {
+        toast.success('Suggestion submitted successfully!');
+        setFormData({ name: '', email: '', suggestion: '' });
+      } else {
+        toast.error('Failed to submit suggestion.');
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('An error occurred. Please try again.');
+    }
   };
+  
+  
 
   return (
     <>

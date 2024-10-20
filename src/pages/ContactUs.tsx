@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
+import axios from 'axios';
+
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -11,13 +13,31 @@ const ContactUs: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission, alert for now.
-    alert('Message sent! We will get back to you shortly.');
-    setFormData({ name: '', email: '', message: '' });
+    
+    // Log the form data to the console
+    console.log('Form Data:', formData);
+  
+    try {
+      const response = await axios.post('http://localhost:5000/send-message', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.status === 201) {
+        alert('Message sent! We will get back to you shortly.');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        alert('Failed to send message.');
+      }
+    } catch (error) {
+      console.log(error);
+      alert('An error occurred. Please try again.');
+    }
   };
-
+  
   return (
     <>
       <Navbar />

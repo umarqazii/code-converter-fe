@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import toast from 'react-hot-toast';
+import axios from 'axios';
+
 const ReportIssue: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -12,12 +14,31 @@ const ReportIssue: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulating issue report submission, you can show an alert for now.
-    toast.success('Issue reported successfully!');
-    setFormData({ name: '', email: '', issue: '' });
+    
+    // Log the form data to the console
+    console.log('Form Data:', formData);
+  
+    try {
+      const response = await axios.post('http://localhost:5000/report-issue', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.status === 201) {
+        toast.success('Issue reported successfully!');
+        setFormData({ name: '', email: '', issue: '' });
+      } else {
+        toast.error('Failed to report issue.');
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('An error occurred. Please try again.');
+    }
   };
+  
 
   return (
     <>
