@@ -22,16 +22,17 @@ const Navbar = () => {
             <i className="pi pi-compass text-xl bg-indigo-500 p-2 rounded-full cursor-pointer" onClick={() => navigate('/')}></i>
           </li>
           <li className='text-slate-700 hidden sm:block'>|</li>
+          <Link to="/" className='cursor-pointer'>Home</Link>
           <Link to="/features" className='cursor-pointer'>Feature</Link>
-          <Link to="/pricing" className='cursor-pointer'>Pricing</Link>
-          <Link to="/insights" className='cursor-pointer'>Insights</Link>
-          <Link to="/integrations" className='cursor-pointer'>Integrations</Link>
+          {/* <Link to="/pricing" className='cursor-pointer'>Pricing</Link> */}
+          <Link to="/suggest-something" className='cursor-pointer'>Suggest Something</Link>
+          <Link to="/report-issue" className='cursor-pointer'>Report an Issue</Link>
           <li className='text-slate-700 hidden sm:block'>|</li>
           {/* Get Started button */}
           <li className='w-full sm:w-auto flex justify-center mt-2 sm:mt-0'>
             <button className='bg-gradient-to-r from-blue-800 to-purple-800 px-4 py-2 rounded-lg shadow-lg flex items-center hover:bg-gradient-to-r hover:from-purple-800 hover:to-blue-800 transition-all duration-400' 
-                    onClick={() => scrollToSection('code-conversion-section')}>
-              Get Started &nbsp; | <i className="pi pi-angle-right ml-2"></i>
+                    onClick={() => navigate('/contact-us')}>
+              Contact Us &nbsp; | <i className="pi pi-angle-right ml-2"></i>
             </button>
           </li>
         </ul>
