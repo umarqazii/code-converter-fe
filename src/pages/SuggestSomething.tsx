@@ -23,13 +23,13 @@ const SuggestSomething: React.FC = () => {
     console.log('Form Data:', formData);
   
     try {
-      const response = await axios.post('http://localhost:5000/suggest', formData, {
+      const response = await axios.post('https://code-converter-be-livid.vercel.app/suggest', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
   
-      if (response.status === 201) {
+      if (response.status === 200 ) {
         toast.success('Suggestion submitted successfully!');
         setFormData({ name: '', email: '', suggestion: '' });
       } else {

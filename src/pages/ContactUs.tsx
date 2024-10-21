@@ -20,13 +20,13 @@ const ContactUs: React.FC = () => {
     console.log('Form Data:', formData);
   
     try {
-      const response = await axios.post('http://localhost:5000/send-message', formData, {
+      const response = await axios.post('https://code-converter-be-livid.vercel.app/send-message', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
   
-      if (response.status === 201) {
+      if (response.status === 200) {
         alert('Message sent! We will get back to you shortly.');
         setFormData({ name: '', email: '', message: '' });
       } else {

@@ -21,13 +21,13 @@ const ReportIssue: React.FC = () => {
     console.log('Form Data:', formData);
   
     try {
-      const response = await axios.post('http://localhost:5000/report-issue', formData, {
+      const response = await axios.post('https://code-converter-be-livid.vercel.app/report-issue', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
   
-      if (response.status === 201) {
+      if (response.status === 200) {
         toast.success('Issue reported successfully!');
         setFormData({ name: '', email: '', issue: '' });
       } else {
